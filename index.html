@@ -599,6 +599,42 @@
     }
 }   }
 }
+        .contact-box {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.contact-btn {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    border-radius: 25px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.contact-btn.fb {
+    background: linear-gradient(90deg, #1877f2, #00c6ff);
+    color: #fff;
+}
+
+.contact-btn.zalo {
+    background: linear-gradient(90deg, #00aaff, #00f2ff);
+    color: #fff;
+}
+
+.contact-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0,255,255,0.5);
+}
+
+.contact-email {
+    text-align: center;
+    color: #ccc;
+    font-size: 13px;
+}
     </style>
 </head>
 <body>
