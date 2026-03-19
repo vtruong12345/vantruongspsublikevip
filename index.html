@@ -1,612 +1,795 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Văn Trường</title>
-<meta name="theme-color" content="#1b0d27" />
-<meta name="description" content="Bio link phong cách hồng vũ trụ" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext y='50' font-size='52'%3E%F0%9F%92%96%3C/text%3E%3C/svg%3E" />
-<style>
-:root{
-  --bg:#090511;
-  --bg-2:#14091f;
-  --fg:#fff2fb;
-  --muted:#f8d7f0;
-  --pink:#ff84df;
-  --pink-2:#ffc7ee;
-  --pink-3:#ffdff5;
-  --line:rgba(255,199,238,.18);
-  --card:rgba(34,12,46,.62);
-  --card-2:rgba(51,17,67,.52);
-  --shadow:0 22px 60px rgba(0,0,0,.52), 0 0 50px rgba(255,132,223,.18);
-  --shadow-strong:0 28px 80px rgba(0,0,0,.68), 0 0 80px rgba(255,132,223,.30), 0 0 140px rgba(255,199,238,.18);
-}
-*{box-sizing:border-box}
-html,body{
-  margin:0;
-  min-height:100%;
-  color:var(--fg);
-  font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-  background:
-    radial-gradient(circle at 15% 20%, rgba(255,150,225,.16), transparent 28%),
-    radial-gradient(circle at 85% 18%, rgba(255,199,238,.09), transparent 22%),
-    radial-gradient(circle at 50% 78%, rgba(183,104,255,.10), transparent 28%),
-    linear-gradient(180deg, var(--bg), var(--bg-2));
-  overflow-x:hidden;
-}
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  background:
-    linear-gradient(120deg, rgba(255,255,255,.03), transparent 35%),
-    radial-gradient(circle at center, rgba(255,255,255,.03), transparent 55%);
-  pointer-events:none;
-  z-index:0;
-}
-#galaxy,
-#nebula{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  pointer-events:none;
-}
-#nebula{z-index:0; filter:blur(8px) saturate(120%); opacity:.95}
-#galaxy{z-index:1}
-.wrap{
-  position:relative;
-  z-index:2;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:34px 18px;
-}
-.shell{
-  width:min(1120px,100%);
-  display:grid;
-  grid-template-columns:1.08fr .92fr;
-  gap:26px;
-}
-@media (max-width:930px){
-  .shell{grid-template-columns:1fr; gap:20px}
-  .wrap{padding:20px 14px}
-}
-.panel{
-  position:relative;
-  overflow:hidden;
-  padding:24px;
-  border-radius:26px;
-  background:linear-gradient(155deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
-  border:1px solid var(--line);
-  box-shadow:var(--shadow);
-  backdrop-filter:blur(18px) saturate(140%);
-  transition:transform .35s ease, box-shadow .35s ease, border-color .35s ease;
-}
-.panel::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  border-radius:inherit;
-  background:
-    linear-gradient(135deg, rgba(255,255,255,.11), transparent 24%),
-    radial-gradient(circle at top right, rgba(255,199,238,.12), transparent 32%);
-  pointer-events:none;
-}
-.panel::after{
-  content:"";
-  position:absolute;
-  inset:1px;
-  border-radius:24px;
-  background:linear-gradient(160deg, var(--card), var(--card-2));
-  z-index:-1;
-}
-.panel:hover{
-  transform:translateY(-8px) scale(1.01);
-  box-shadow:var(--shadow-strong);
-  border-color:rgba(255,199,238,.32);
-}
-.head{
-  display:flex;
-  align-items:center;
-  gap:18px;
-  margin-bottom:14px;
-}
-.avatar{
-  position:relative;
-  width:104px;
-  height:104px;
-  border-radius:50%;
-  overflow:hidden;
-  flex:0 0 auto;
-  border:2px solid rgba(255,199,238,.60);
-  box-shadow:0 0 30px rgba(255,132,223,.32), 0 0 65px rgba(255,199,238,.16);
-  cursor:pointer;
-  transition:transform .3s ease, box-shadow .3s ease;
-}
-.avatar::before{
-  content:"";
-  position:absolute;
-  inset:-7px;
-  border-radius:50%;
-  background:conic-gradient(from 0deg, rgba(255,132,223,.12), rgba(255,199,238,.45), rgba(255,132,223,.12));
-  filter:blur(14px);
-  z-index:-1;
-  animation:spin 8s linear infinite;
-}
-.avatar:hover{
-  transform:scale(1.04);
-  box-shadow:0 0 34px rgba(255,132,223,.5), 0 0 85px rgba(255,199,238,.26);
-}
-.avatar img{width:100%;height:100%;object-fit:cover}
-.online{
-  position:absolute;
-  right:8px;
-  bottom:8px;
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  background:linear-gradient(135deg, #ffd4f5, #ff8adf);
-  box-shadow:0 0 16px rgba(255,199,238,.95);
-  border:2px solid rgba(18,7,26,.8);
-}
-.title h1{
-  margin:0;
-  font-size:clamp(1.45rem,2vw,1.9rem);
-  line-height:1.15;
-  letter-spacing:.2px;
-  color:var(--pink-3);
-  text-shadow:0 0 18px rgba(255,132,223,.36);
-  display:flex;
-  align-items:center;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.badge-verify{display:inline-flex; width:22px; height:22px}
-.sub{
-  margin-top:8px;
-  color:var(--muted);
-  opacity:.92;
-  letter-spacing:.3px;
-}
-.badges{
-  display:flex;
-  flex-wrap:wrap;
-  gap:10px;
-  margin:16px 0 10px;
-}
-.badge{
-  padding:8px 12px;
-  border-radius:999px;
-  font-size:.93rem;
-  color:var(--fg);
-  background:rgba(255,255,255,.045);
-  border:1px solid rgba(255,199,238,.22);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.07);
-}
-.bio{
-  margin:14px 0 18px;
-  padding:14px 16px;
-  line-height:1.65;
-  color:#fff6fc;
-  border-radius:18px;
-  background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.025));
-  border:1px solid rgba(255,199,238,.12);
-}
-.quick-stats{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:10px;
-  margin-bottom:14px;
-}
-.quick-stats .stat{
-  padding:12px 10px;
-  border-radius:16px;
-  background:rgba(255,255,255,.04);
-  border:1px solid rgba(255,199,238,.12);
-  text-align:center;
-}
-.quick-stats .stat b{
-  display:block;
-  font-size:1rem;
-  color:#fff8fd;
-}
-.quick-stats .stat span{
-  font-size:.82rem;
-  color:var(--muted);
-}
-@media (max-width:560px){
-  .quick-stats{grid-template-columns:1fr}
-}
-.actions{
-  display:grid;
-  grid-template-columns:repeat(2, minmax(0,1fr));
-  gap:12px;
-}
-@media (max-width:520px){
-  .actions{grid-template-columns:1fr}
-}
-.btn,
-.tile{
-  position:relative;
-  overflow:hidden;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:8px;
-  min-height:52px;
-  padding:14px 14px;
-  border-radius:16px;
-  text-decoration:none;
-  font-weight:700;
-  transition:transform .26s ease, box-shadow .26s ease, border-color .26s ease, background .26s ease;
-}
-.btn::before,
-.tile::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:linear-gradient(120deg, transparent 0%, rgba(255,255,255,.12) 45%, transparent 75%);
-  transform:translateX(-120%);
-  transition:transform .6s ease;
-}
-.btn:hover::before,
-.tile:hover::before{transform:translateX(120%)}
-.btn{
-  border:1px solid rgba(255,199,238,.35);
-  color:#2c0823;
-  background:linear-gradient(135deg, #ffd6f4, #ff9fe5 58%, #ffb9ec);
-  box-shadow:0 12px 28px rgba(255,132,223,.22);
-  cursor:pointer;
-}
-.btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 18px 36px rgba(255,132,223,.34), 0 0 26px rgba(255,199,238,.25);
-}
-.tile{
-  color:var(--fg);
-  background:linear-gradient(135deg, rgba(255,255,255,.055), rgba(255,255,255,.028));
-  border:1px solid rgba(255,199,238,.16);
-}
-.tile:hover{
-  transform:translateY(-3px);
-  border-color:rgba(255,199,238,.35);
-  box-shadow:0 16px 34px rgba(0,0,0,.28), 0 0 32px rgba(255,132,223,.18);
-}
-.section{
-  margin:6px 0 16px;
-  padding-bottom:12px;
-  font-size:1.04rem;
-  color:var(--pink-3);
-  font-weight:800;
-  text-shadow:0 0 12px rgba(255,132,223,.28);
-  position:relative;
-}
-.section::after{
-  content:"";
-  position:absolute;
-  left:0;
-  bottom:0;
-  width:88px;
-  height:3px;
-  border-radius:999px;
-  background:linear-gradient(90deg, #ff8edf, #ffd2f2);
-}
-.stack{
-  display:grid;
-  gap:12px;
-}
-.social-grid{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-  margin-top:12px;
-}
-@media (max-width:520px){
-  .social-grid{grid-template-columns:1fr}
-}
-.footer{
-  margin-top:18px;
-  padding-top:14px;
-  text-align:center;
-  color:var(--muted);
-  border-top:1px solid rgba(255,199,238,.12);
-}
-.toast{
-  position:fixed;
-  left:50%;
-  bottom:22px;
-  transform:translateX(-50%);
-  padding:11px 16px;
-  border-radius:999px;
-  color:#2a0721;
-  background:linear-gradient(135deg, #ffd9f6, #ff9ee5);
-  box-shadow:0 12px 34px rgba(255,132,223,.35);
-  font-weight:800;
-  display:none;
-  z-index:10;
-}
-.music-fab{
-  position:fixed;
-  right:20px;
-  bottom:20px;
-  z-index:9;
-  width:58px;
-  height:58px;
-  border:none;
-  border-radius:50%;
-  cursor:pointer;
-  color:#330a2a;
-  background:linear-gradient(135deg, #ffe0f8, #ff95e2);
-  box-shadow:0 18px 38px rgba(255,132,223,.34), 0 0 24px rgba(255,199,238,.25);
-  font-size:1.2rem;
-  transition:transform .25s ease, box-shadow .25s ease;
-}
-.music-fab:hover{transform:translateY(-3px) scale(1.04)}
-.focus-ring:focus-visible,
-.btn:focus-visible,
-.tile:focus-visible,
-.music-fab:focus-visible,
-.avatar:focus-visible{
-  outline:2px solid #ffd8f5;
-  outline-offset:3px;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HaToKi Media - Dịch Vụ MXH</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #00d4ff;
+            --secondary-color: #1a1a1a;
+            --text-color: #ffffff;
+            --gray-color: #999999;
+            --dark-bg: #0a0a0a;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            letter-spacing: 2px;
+        }
+
+        nav {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        .nav-btn {
+            background: var(--primary-color);
+            color: #000;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #00a8cc;
+            transform: translateY(-2px);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+            gap: 80px;
+            padding: 100px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .hero-content h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00d4ff 0%, #00f7ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 16px;
+            color: var(--gray-color);
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00d4ff 0%, #00a8cc 100%);
+            color: #000;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            padding: 15px 40px;
+            border: 2px solid var(--primary-color);
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: #000;
+        }
+
+        .hero-image {
+            position: relative;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-box {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--primary-color);
+        }
+
+        /* ===== SERVICES SECTION ===== */
+        .services {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 212, 255, 0.05) 100%);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .section-title p {
+            color: var(--gray-color);
+            font-size: 16px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .service-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            padding: 40px;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .service-card:hover {
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+            transform: translateY(-10px);
+        }
+
+        .service-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+        }
+
+        .service-card p {
+            color: var(--gray-color);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* ===== PRICING SECTION ===== */
+        .pricing {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, rgba(0, 212, 255, 0.05) 0%, transparent 100%);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .pricing-table {
+            width: 100%;
+            margin-top: 50px;
+        }
+
+        .pricing-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .pricing-row:hover {
+            background: rgba(0, 212, 255, 0.05);
+            padding-left: 30px;
+        }
+
+        .pricing-service {
+            color: var(--text-color);
+            font-size: 16px;
+        }
+
+        .pricing-price {
+            color: var(--primary-color);
+            font-weight: 700;
+            font-size: 18px;
+            text-align: right;
+        }
+
+        /* ===== PACKAGES SECTION ===== */
+        .packages {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 212, 255, 0.05) 100%);
+        }
+
+        .packages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        .package-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #0f0f0f 100%);
+            padding: 40px;
+            border-radius: 15px;
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .package-card.featured {
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 50px rgba(0, 212, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .package-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #00d4ff 0%, #00a8cc 100%);
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        .package-name {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            margin-top: 10px;
+        }
+
+        .package-price {
+            font-size: 36px;
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .package-features {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .package-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            color: var(--gray-color);
+            font-size: 14px;
+        }
+
+        .package-features li:before {
+            content: '✓ ';
+            color: var(--primary-color);
+            font-weight: 700;
+            margin-right: 10px;
+        }
+
+        .package-btn {
+            background: var(--primary-color);
+            color: #000;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-weight: 700;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .package-btn:hover {
+            background: #00a8cc;
+            transform: translateY(-2px);
+        }
+
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, rgba(0, 212, 255, 0.05) 0%, transparent 100%);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+            margin-top: 50px;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .feature-item h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .feature-item p {
+            color: var(--gray-color);
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, #0a0a0a 0%, #000000 100%);
+            padding: 50px;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            text-align: center;
+            color: var(--gray-color);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h4 {
+            color: var(--text-color);
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .footer-section p {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: var(--gray-color);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 212, 255, 0.1);
+            font-size: 14px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 20px;
+                gap: 20px;
+            }
+
+            nav {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 50px 20px;
+                gap: 40px;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .services-grid,
+            .packages-grid,
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .package-card.featured {
+                transform: scale(1);
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-row {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .pricing-price {
+                text-align: left;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .service-card,
+        .package-card,
+        .feature-item {
+            animation: fadeInUp 0.6s ease-out forwards;
+        }
+
+        .service-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .service-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+    </style>
 </head>
 <body>
-<canvas id="nebula" aria-hidden="true"></canvas>
-<canvas id="galaxy" aria-hidden="true"></canvas>
+    <!-- HEADER -->
+    <header>
+        <div class="logo">HATOKI MEDIA</div>
+        <nav>
+            <a href="#home">Giới Thiệu</a>
+            <a href="#services">Dịch Vụ</a>
+            <a href="#pricing">Bảng Giá</a>
+            <a href="#packages">Khóa Học</a>
+            <a href="#contact">Liên Hệ</a>
+            <button class="nav-btn">Đăng Ký</button>
+        </nav>
+    </header>
 
-<div class="wrap">
-  <div class="shell">
-    <section class="panel" aria-label="Hồ sơ">
-      <div class="head">
-        <div class="avatar focus-ring" id="avatar" title="Nhấn để thả tim" tabindex="0">
-          <img src="https://sf-static.upanhlaylink.com/img/image_202603128fd39969f888ec60ceacd26c37570991.jpg" alt="Avatar" loading="lazy" />
-          <span class="online" aria-hidden="true"></span>
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Dịch Vụ MXH HaToKi Media</h1>
+            <p>Khám phá các khóa học chuyên sâu giúp bạn có được nhiều kiến thức bổ ích về MXH và tiếp thị số. Từ các TUT Trick khai thác, bảo mật đến chiến lược quảng cáo bán hàng hiệu quả.</p>
+            <div class="hero-buttons">
+                <button class="btn-primary">Get Started</button>
+                <button class="btn-secondary">Learn More</button>
+            </div>
         </div>
-        <div class="title">
-          <h1>Văn Trường
-            <span class="badge-verify" title="Verified">
-              <svg width="22" height="22" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                <defs>
-                  <linearGradient id="verifyGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#ffd7f5"/>
-                    <stop offset="1" stop-color="#ff86df"/>
-                  </linearGradient>
-                </defs>
-                <path d="M12 2l2.3 1.3 2.6-.1 1.7 2 .1 2.6L20 10l1.7 2.2-.1 2.6-1.7 2-2.6-.1L12 22l-2.3-1.3-2.6.1-1.7-2-.1-2.6L4 12l-1.7-2.2.1-2.6 1.7-2 2.6.1L12 2z" fill="url(#verifyGrad)"/>
-                <path d="M10.2 13.3l-2-2 1.4-1.4 1.3 1.3 3.5-3.5 1.4 1.4-4.9 5.2z" fill="#3a0c2f"/>
-              </svg>
-            </span>
-          </h1>
-          <div class="sub">Coder • Reverse • 36xSec</div>
+        <div class="hero-image">
+            <div class="hero-box">📱</div>
         </div>
-      </div>
-
-      <div class="badges">
-        <span class="badge">🇻🇳 Việt Nam</span>
-        <span class="badge">☎ 0981251350</span>
-        <span class="badge">✉ dinhvantruong27th05@gmail.com</span>
-      </div>
-
-      <p class="bio">CHÀO MỪNG CÁC BẠN ĐẾN VỚI BIO CỦA MÌNH 💕 Giao diện đã được nâng cấp theo phong cách hồng vũ trụ cao cấp, nổi khối hơn và có lại đầy đủ nhạc nền.</p>
-
-      <div class="quick-stats" aria-label="Thông tin nhanh">
-        <div class="stat"><b>VIP</b><span>Pink Galaxy</span></div>
-        <div class="stat"><b>Glow</b><span>Glass UI</span></div>
-        <div class="stat"><b>Music</b><span>Auto + Toggle</span></div>
-      </div>
-
-      <div class="actions">
-        <a class="tile" href="https://www.facebook.com/vantruonggg.08" target="_blank" rel="noopener">📘 <strong>Liên Hệ 1</strong></a>
-        <a class="tile" href="http://zalo.me/0981251350" target="_blank" rel="noopener">💬 <strong>Liên Hệ 2</strong></a>
-        <button class="btn" id="toggleMusicBtn" aria-pressed="true">🔊 Tắt nhạc</button>
-        <button class="tile" id="copyPhone" type="button">📋 <strong>Copy SĐT</strong></button>
-      </div>
     </section>
 
-    <section class="panel" aria-label="Liên kết & mạng xã hội">
-      <div class="section">Tài Nguyên</div>
-      <div class="stack">
-        <a class="tile" href="https://sublikevip.online" target="_blank" rel="noopener">🚀 <strong>Web Tăng Tương Tác MXH</strong></a>
-        <a class="tile" href="https://www.facebook.com/vantruonggg.08" target="_blank" rel="noopener">✨ <strong>Trang Cá Nhân Facebook</strong></a>
-      </div>
-
-      <div class="section" style="margin-top:20px">Thông tin liên hệ</div>
-      <div class="social-grid">
-        <a class="tile" href="https://www.facebook.com/vantruonggg.08" target="_blank" rel="noopener">📘 <strong>Facebook</strong></a>
-        <a class="tile" href="http://zalo.me/0981251350" target="_blank" rel="noopener">💬 <strong>Zalo</strong></a>
-        <button class="tile" id="copyMail" type="button">✉️ <strong>Copy Email</strong></button>
-        <button class="tile" id="scrollTopBtn" type="button">🌌 <strong>Lên đầu trang</strong></button>
-      </div>
-
-      <div class="footer">© 2026 • VĂN TRƯỜNG | BIO LINK PINK GALAXY VIP</div>
+    <!-- ABOUT SERVICES -->
+    <section class="services" id="services">
+        <div class="section-title">
+            <h2>Về Dịch Vụ Của Chúng Tôi</h2>
+            <p>KHÁM PHÁ NHỮNG TÍNH NĂNG SÁNG TẠO NHẤT GIÚP CHÚNG TÔI KHÁC BIỆT SO VỚI ĐỐI THỦ CẠNH TRANH</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon">🏆</div>
+                <h3>Đáng Tin Cậy</h3>
+                <p>Hơn 10.000+ khách hàng đã tin tưởng và đánh giá tích cực trên toàn nền tảng.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⚡</div>
+                <h3>Hiệu Quả Hơn Mong Đợi</h3>
+                <p>Giúp bạn tiết kiệm thời gian, tối ưu hiệu suất và đạt kết quả rõ rệt chỉ sau vài lần sử dụng.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon">⚙️</div>
+                <h3>Không Chờ Đợi & Không Rườm Rà</h3>
+                <p>Quy trình xử lý tinh gọn – bạn yêu cầu, chúng tôi thực hiện ngay.</p>
+            </div>
+        </div>
     </section>
-  </div>
-</div>
 
-<div class="toast" id="toast">Đã copy!</div>
-<button class="music-fab" id="musicFab" type="button" aria-label="Bật tắt nhạc">🎵</button>
+    <!-- PRICING SECTION -->
+    <section class="pricing" id="pricing">
+        <div class="section-title">
+            <h2>Bảng Giá Dịch Vụ</h2>
+            <p>Chọn dịch vụ phù hợp với nhu cầu của bạn</p>
+        </div>
+        <div class="pricing-table">
+            <div class="pricing-row">
+                <div class="pricing-service">Dame Tài Khoản Facebook TCN Thường</div>
+                <div class="pricing-price">1.500.000₫</div>
+            </div>
+            <div class="pricing-row">
+                <div class="pricing-service">Dame Tài Khoản Facebook Chuyên Nghiệp</div>
+                <div class="pricing-price">1.700.000₫</div>
+            </div>
+            <div class="pricing-row">
+                <div class="pricing-service">Dame Fanpage Facebook</div>
+                <div class="pricing-price">3.000.000₫</div>
+            </div>
+            <div class="pricing-row">
+                <div class="pricing-service">Dame Tài Khoản TikTok</div>
+                <div class="pricing-price">4.000.000₫</div>
+            </div>
+            <div class="pricing-row">
+                <div class="pricing-service">Dame Tài Khoản Instagram</div>
+                <div class="pricing-price">2.000.000₫</div>
+            </div>
+            <div class="pricing-row">
+                <div class="pricing-service">Mở Khóa Facebook Dạng Két Chính Chủ</div>
+                <div class="pricing-price">650.000₫</div>
+            </div>
+            <div class="pricing-row">
+                <div class="pricing-service">Lên Tick Xanh Profile Facebook KBH</div>
+                <div class="pricing-price">999.000₫</div>
+            </div>
+            <div class="pricing-row">
+                <div class="pricing-service">Tăng Like (1000 tương tác)</div>
+                <div class="pricing-price">180.000₫</div>
+            </div>
+        </div>
+    </section>
 
-<audio id="backgroundAudio" loop preload="auto" style="display:none">
-  <source src="https://files.catbox.moe/ti4t91.mp3" type="audio/mpeg" />
-</audio>
+    <!-- PACKAGES SECTION -->
+    <section class="packages" id="packages">
+        <div class="section-title">
+            <h2>Khóa Học Chuyên Sâu</h2>
+            <p>Nâng cao kiến thức với các khóa học chất lượng từ chuyên gia</p>
+        </div>
+        <div class="packages-grid">
+            <div class="package-card">
+                <h4 class="package-name">DV Facebook Cơ Bản</h4>
+                <div class="package-price">3.500.000₫</div>
+                <ul class="package-features">
+                    <li>Toàn bộ kiến thức dịch vụ</li>
+                    <li>Cách vận hành hiệu quả</li>
+                    <li>Tool hỗ trợ miễn phí</li>
+                    <li>Dạy kèm 1:1 trên Google Meet</li>
+                    <li>Cung cấp tài nguyên</li>
+                </ul>
+                <button class="package-btn">Đăng Ký Ngay</button>
+            </div>
+            <div class="package-card featured">
+                <div class="package-badge">COMBO VIP</div>
+                <h4 class="package-name">Full Khóa Học DVMXH</h4>
+                <div class="package-price">19.000.000₫</div>
+                <ul class="package-features">
+                    <li>TẤT CẢ khóa học về DV MXH & Ads</li>
+                    <li>Giảm giá 40% so với mua lẻ</li>
+                    <li>Hỗ trợ trọn đời</li>
+                    <li>Group VIP riêng</li>
+                    <li>Cập nhật miễn phí vĩnh viễn</li>
+                </ul>
+                <button class="package-btn">Đăng Ký Ngay</button>
+            </div>
+            <div class="package-card">
+                <h4 class="package-name">Ads Facebook Nâng Cao</h4>
+                <div class="package-price">12.800.000₫</div>
+                <ul class="package-features">
+                    <li>Chiến lược quảng cáo</li>
+                    <li>Tối ưu ngân sách</li>
+                    <li>Cách tạo content hiệu quả</li>
+                    <li>Group hỗ trợ riêng</li>
+                    <li>Hỗ trợ 24/7</li>
+                </ul>
+                <button class="package-btn">Đăng Ký Ngay</button>
+            </div>
+        </div>
+    </section>
 
-<script>
-const toast=document.getElementById('toast');
-function showToast(text){
-  toast.textContent=text;
-  toast.style.display='block';
-  clearTimeout(showToast.t);
-  showToast.t=setTimeout(()=>toast.style.display='none',1600);
-}
-function safeCopy(text){
-  if(navigator.clipboard?.writeText){
-    navigator.clipboard.writeText(text).then(()=>showToast('Đã copy!'));
-  }else{
-    const ta=document.createElement('textarea');
-    ta.value=text;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    ta.remove();
-    showToast('Đã copy!');
-  }
-}
+    <!-- FEATURES SECTION -->
+    <section class="features">
+        <div class="section-title">
+            <h2>Lợi Ích Khi Làm Việc Với Chúng Tôi</h2>
+            <p>Lý do hàng ngàn khách hàng đã tin tưởng và lựa chọn dịch vụ của chúng tôi</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <h3>Tốc Độ Nhanh Chóng</h3>
+                <p>Xử lý yêu cầu 24/7, hoàn thành nhanh chóng chỉ từ 5-30 phút cho các dịch vụ cơ bản</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🔒</div>
+                <h3>Bảo Mật Tuyệt Đối</h3>
+                <p>Cam kết không lưu giữ thông tin khách hàng, bảo mật toàn diện mọi giao dịch</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">💬</div>
+                <h3>Hỗ Trợ 24/7</h3>
+                <p>Đội ngũ chuyên viên luôn sẵn sàng hỗ trợ mọi vấn đề khách hàng gặp phải</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">💰</div>
+                <h3>Giá Cạnh Tranh</h3>
+                <p>Giá dịch vụ tốt nhất thị trường với chất lượng đảm bảo theo tiêu chuẩn cao</p>
+            </div>
+        </div>
+    </section>
 
-document.getElementById('copyPhone').addEventListener('click',()=>safeCopy('0981251350'));
-document.getElementById('copyMail').addEventListener('click',()=>safeCopy('dinhvantruong27th05@gmail.com'));
-document.getElementById('scrollTopBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+    <!-- FOOTER -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Về Chúng Tôi</h4>
+                <p>HaToKi Media là nhà cung cấp dịch vụ MXH hàng đầu với 10.000+ khách hàng tin tưởng.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Liên Kết Nhanh</h4>
+                <ul class="footer-links">
+                    <li><a href="#home">Trang Chủ</a></li>
+                    <li><a href="#services">Dịch Vụ</a></li>
+                    <li><a href="#pricing">Bảng Giá</a></li>
+                    <li><a href="#packages">Khóa Học</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Liên Hệ</h4>
+                <p>📧 Email: info@hatokimdia.com</p>
+                <p>💬 Telegram: @hatoki_media</p>
+                <p>📱 Zalo: 0xxx.xxx.xxx</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 HaToKi Media. All Rights Reserved.</p>
+        </div>
+    </footer>
 
-const audio=document.getElementById('backgroundAudio');
-const toggleMusicBtn=document.getElementById('toggleMusicBtn');
-const musicFab=document.getElementById('musicFab');
-audio.volume=.62;
-async function syncMusicUI(){
-  const isPlaying=!audio.paused;
-  toggleMusicBtn.textContent=isPlaying?'🔊 Tắt nhạc':'🔈 Bật nhạc';
-  toggleMusicBtn.setAttribute('aria-pressed', String(isPlaying));
-  musicFab.textContent=isPlaying?'🎵':'🔇';
-}
-async function playMusic(){
-  try{await audio.play();}catch(e){}
-  syncMusicUI();
-}
-function pauseMusic(){
-  audio.pause();
-  syncMusicUI();
-}
-function toggleMusic(){
-  if(audio.paused) playMusic();
-  else pauseMusic();
-}
-playMusic();
-toggleMusicBtn.addEventListener('click',toggleMusic);
-musicFab.addEventListener('click',toggleMusic);
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
 
-document.addEventListener('visibilitychange',()=>{ if(!document.hidden) syncMusicUI(); });
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
 
-const avatar=document.getElementById('avatar');
-function spawnHeart(x,y){
-  const el=document.createElement('div');
-  el.textContent=Math.random()>.5?'💗':'💖';
-  Object.assign(el.style,{
-    position:'absolute', left:x+'px', top:y+'px', pointerEvents:'none', zIndex:'5',
-    fontSize:(14+Math.random()*12)+'px', opacity:'1', filter:'drop-shadow(0 0 10px rgba(255,180,235,.9))'
-  });
-  const dx=(Math.random()-.5)*80;
-  const dy=-(34+Math.random()*76);
-  const rot=(Math.random()-.5)*80;
-  avatar.appendChild(el);
-  const t0=performance.now();
-  function step(t){
-    const k=Math.min(1,(t-t0)/1000);
-    el.style.transform=`translate(${dx*k}px, ${dy*k}px) rotate(${rot*k}deg) scale(${1+.25*k})`;
-    el.style.opacity=String(1-k);
-    if(k<1) requestAnimationFrame(step); else el.remove();
-  }
-  requestAnimationFrame(step);
-}
-function heartBurst(evt){
-  const rect=avatar.getBoundingClientRect();
-  const x=(evt?.clientX?evt.clientX-rect.left:52);
-  const y=(evt?.clientY?evt.clientY-rect.top:52);
-  for(let i=0;i<8;i++) spawnHeart(x,y);
-}
-avatar.addEventListener('click',heartBurst);
-avatar.addEventListener('keydown',(e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); heartBurst(); }});
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
 
-const nebula=document.getElementById('nebula');
-const nctx=nebula.getContext('2d');
-const galaxy=document.getElementById('galaxy');
-const gctx=galaxy.getContext('2d');
-let W=0,H=0,stars=[],dust=[],meteors=[];
-function resize(){
-  W=nebula.width=galaxy.width=innerWidth;
-  H=nebula.height=galaxy.height=innerHeight;
-  stars=Array.from({length:Math.max(170, Math.floor(W/7))},()=>({
-    x:Math.random()*W,
-    y:Math.random()*H,
-    r:Math.random()*1.7+.15,
-    v:Math.random()*.28+.06,
-    a:Math.random()*.7+.25,
-    tw:Math.random()*.03+.008
-  }));
-  dust=Array.from({length:20},()=>({
-    x:Math.random()*W,
-    y:Math.random()*H,
-    r:Math.random()*180+90,
-    c:Math.random()>.5?'rgba(255,152,229,.08)':'rgba(210,140,255,.08)'
-  }));
-}
-function drawNebula(){
-  nctx.clearRect(0,0,W,H);
-  for(const d of dust){
-    const grd=nctx.createRadialGradient(d.x,d.y,0,d.x,d.y,d.r);
-    grd.addColorStop(0,d.c);
-    grd.addColorStop(1,'transparent');
-    nctx.fillStyle=grd;
-    nctx.beginPath();
-    nctx.arc(d.x,d.y,d.r,0,Math.PI*2);
-    nctx.fill();
-  }
-}
-function drawGalaxy(){
-  gctx.clearRect(0,0,W,H);
-  const glow=gctx.createRadialGradient(W*.72,H*.18,0,W*.72,H*.18,Math.max(W,H)*.85);
-  glow.addColorStop(0,'rgba(255,206,242,.12)');
-  glow.addColorStop(.28,'rgba(255,132,223,.06)');
-  glow.addColorStop(1,'transparent');
-  gctx.fillStyle=glow;
-  gctx.fillRect(0,0,W,H);
-
-  for(const s of stars){
-    s.y+=s.v;
-    s.a+=s.tw*(Math.random()>.5?1:-1);
-    if(s.a<.2 || s.a>.95) s.tw*=-1;
-    if(s.y>H+3){ s.y=-3; s.x=Math.random()*W; }
-    gctx.beginPath();
-    gctx.fillStyle=`rgba(255,238,250,${Math.max(.18,Math.min(.95,s.a))})`;
-    gctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-    gctx.fill();
-  }
-
-  gctx.lineWidth=1.4;
-  for(let i=meteors.length-1;i>=0;i--){
-    const m=meteors[i];
-    const tail=gctx.createLinearGradient(m.x,m.y,m.x-m.l*.72,m.y+m.l);
-    tail.addColorStop(0,'rgba(255,240,250,.95)');
-    tail.addColorStop(1,'rgba(255,140,225,0)');
-    gctx.strokeStyle=tail;
-    gctx.beginPath();
-    gctx.moveTo(m.x,m.y);
-    gctx.lineTo(m.x-m.l*.72,m.y+m.l);
-    gctx.stroke();
-    m.x+=m.vx; m.y+=m.vy;
-    if(m.y>H+160 || m.x>W+160) meteors.splice(i,1);
-  }
-  if(Math.random()<0.022){
-    meteors.push({
-      x:Math.random()*W*.85,
-      y:-20,
-      l:Math.random()*110+55,
-      vx:Math.random()*2.7+2.2,
-      vy:Math.random()*4.3+5.3
-    });
-  }
-  requestAnimationFrame(drawGalaxy);
-}
-addEventListener('resize',()=>{resize(); drawNebula();});
-resize();
-drawNebula();
-drawGalaxy();
-</script>
+        document.querySelectorAll('.service-card, .package-card, .feature-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease-out';
+            observer.observe(el);
+        });
+    </script>
 </body>
 </html>
